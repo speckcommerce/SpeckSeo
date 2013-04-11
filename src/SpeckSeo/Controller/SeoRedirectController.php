@@ -12,14 +12,25 @@ class SeoRedirectController extends AbstractActionController
     {
         $helper = $this->getSeoUrlHelper();
         $url    = $helper->productById($this->params('id'));
+        $url    = $this->addQueryToUrl($url);
 
         return $this->redirect()->toUrl($url);
     }
+
+    public function addQueryToUrl($urlString)
+    {
+        if ($this->params()->fromQuery()) {
+            $urlString .= '?' . http_build_query($this->params()->fromQuery());
+        }
+        return $urlString;
+    }
+
 
     public function categoryByIdAction()
     {
         $helper = $this->getSeoUrlHelper();
         $url    = $helper->categoryById($this->params('id'));
+        $url    = $this->addQueryToUrl($url);
 
         return $this->redirect()->toUrl($url);
     }
