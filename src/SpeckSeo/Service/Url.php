@@ -4,9 +4,12 @@ namespace SpeckSeo\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use BaconStringUtils\Slugifier;
+use Zend\View\Helper\AbstractHelper;
+use Zend\View\HelperPluginManager;
 
-class Url implements ServiceLocatorAwareInterface
+class Url extends AbstractHelper implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -144,10 +147,18 @@ class Url implements ServiceLocatorAwareInterface
     public function getUrlHelper()
     {
         if (null === $this->urlHelper) {
-            $hm = $this->getServiceLocator()->get('viewhelpermanager');
+            $hm = $this->getServiceLocator();
             $this->urlHelper = $hm->get('url');
         }
         return $this->urlHelper;
+    }
+
+    public function setServiceLocator(ServiceLocatorInterface $locator)
+    {
+        if (!$locator instanceOf HelperPluginManager) {
+            $this->serviceLocator = $locator->get('viewhelpermanager');
+        }
+        $this->serviceLocator = $locator;
     }
 
     /**
