@@ -68,7 +68,7 @@ class Module
                             'seo' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/:slug:-:id',
+                                    'route' => '/:slug:-:id:.html',
                                     'constraints' => array(
                                         'slug' => '[A-Za-z0-9-]+',
                                         'id' => '\d+'
@@ -96,7 +96,7 @@ class Module
                             'seo' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/:slug:-:id',
+                                    'route' => '/:slug:-:id:.html',
                                     'constraints' => array(
                                         'slug' => '[A-Za-z0-9-]+',
                                         'id' => '\d+'
