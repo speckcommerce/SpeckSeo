@@ -2,21 +2,19 @@
 
 namespace SpeckSeo\Service;
 
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use BaconStringUtils\Slugifier;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\HelperPluginManager;
+use Zend\ServiceManager\ServiceManager;
 
-class Url extends AbstractHelper implements ServiceLocatorAwareInterface
+class Url extends AbstractHelper
 {
-    use ServiceLocatorAwareTrait;
-
     protected $productService;
     protected $categoryService;
     protected $companyService;
     protected $urlHelper;
+    protected $serviceManager;
+    protected $helperManager;
 
     protected $routes = array(
         'brand'    => 'brand/seo',
@@ -84,7 +82,7 @@ class Url extends AbstractHelper implements ServiceLocatorAwareInterface
     public function getProductService()
     {
         if (null === $this->productService) {
-            $this->productService = $this->getServiceLocator()->get('speckcatalog_product_service');
+            $this->productService = $this->getServiceManager()->get('speckcatalog_product_service');
         }
         return $this->productService;
     }
@@ -105,7 +103,7 @@ class Url extends AbstractHelper implements ServiceLocatorAwareInterface
     public function getCategoryService()
     {
         if (null === $this->categoryService) {
-            $this->categoryService = $this->getServiceLocator()->get('speckcatalog_category_service');
+            $this->categoryService = $this->getServiceManager()->get('speckcatalog_category_service');
         }
         return $this->categoryService;
     }
@@ -126,7 +124,7 @@ class Url extends AbstractHelper implements ServiceLocatorAwareInterface
     public function getCompanyService()
     {
         if (null === $this->companyService) {
-            $this->companyService = $this->getServiceLocator()->get('speckcatalog_company_service');
+            $this->companyService = $this->getServiceManager()->get('speckcatalog_company_service');
         }
         return $this->companyService;
     }
@@ -147,18 +145,10 @@ class Url extends AbstractHelper implements ServiceLocatorAwareInterface
     public function getUrlHelper()
     {
         if (null === $this->urlHelper) {
-            $hm = $this->getServiceLocator();
+            $hm = $this->getHelperManager();
             $this->urlHelper = $hm->get('url');
         }
         return $this->urlHelper;
-    }
-
-    public function setServiceLocator(ServiceLocatorInterface $locator)
-    {
-        if (!$locator instanceOf HelperPluginManager) {
-            $this->serviceLocator = $locator->get('viewhelpermanager');
-        }
-        $this->serviceLocator = $locator;
     }
 
     /**
@@ -168,6 +158,42 @@ class Url extends AbstractHelper implements ServiceLocatorAwareInterface
     public function setUrlHelper($urlHelper)
     {
         $this->urlHelper = $urlHelper;
+        return $this;
+    }
+
+    /**
+     * @return serviceManager
+     */
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
+
+    /**
+     * @param $serviceManager
+     * @return self
+     */
+    public function setServiceManager(ServiceManager $serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+        return $this;
+    }
+
+    /**
+     * @return helperManager
+     */
+    public function getHelperManager()
+    {
+        return $this->helperManager;
+    }
+
+    /**
+     * @param $helperManager
+     * @return self
+     */
+    public function setHelperManager(HelperPluginManager $helperManager)
+    {
+        $this->helperManager = $helperManager;
         return $this;
     }
 }

@@ -29,17 +29,27 @@ class Module
     public function getViewHelperConfig()
     {
         return array(
-            'invokables' => array(
-                'seoUrl' => 'SpeckSeo\Service\Url',
-            )
+            'factories' => array(
+                'seoUrl' => function ($sm) {
+                    $helper = new Service\Url;
+                    $helper->setServiceManager($sm->getServiceLocator());
+                    $helper->setHelperManager($sm);
+                    return $helper;
+                },
+            ),
         );
     }
 
     public function getServiceConfig()
     {
         return array(
-            'invokables' => array(
-                'seoUrl' => 'SpeckSeo\Service\Url',
+            'factories' => array(
+                'seoUrl' => function ($sm) {
+                    $helper = new Service\Url;
+                    $helper->setServiceManager($sm);
+                    $helper->setHelperManager($sm->get('viewHelperManager'));
+                    return $helper;
+                },
             ),
         );
     }
