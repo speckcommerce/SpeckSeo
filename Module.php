@@ -64,7 +64,7 @@ class Module
                             'byid' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/:id[/:cartItemId]',
+                                    'route' => '/:id',
                                     'constraints' => array(
                                         'id'         => '[0-9]+',
                                         'cartItemId' => '[0-9]+',
@@ -92,7 +92,7 @@ class Module
                             'byid' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/:id[/:cartItemId]',
+                                    'route' => '/:id',
                                     'constraints' => array(
                                         'id'         => '[0-9]+',
                                         'cartItemId' => '[0-9]+',
